@@ -53,7 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controle.cs" />
-    <Compile Include="EnumEstrelaVentos.cs" />
+    <Compile Include="EstrelaVentos.cs" />
     <Compile Include="Malha.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

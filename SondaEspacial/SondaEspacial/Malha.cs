@@ -7,10 +7,7 @@ using System.Threading.Tasks;
 namespace SondaEspacial
 {
     public class Malha
-    {
-        public int CoordenadaMaxX { get; private set; }
-        public int CoordenadaMaxY { get; private set; }
-
+    {      
         public Malha(int coordenadaX, int coordenadaY)
         {
             if (coordenadaX < 1) { throw new ArgumentException("Coordenada X não pode ser menor que 1"); }
@@ -19,5 +16,8 @@ namespace SondaEspacial
             this.CoordenadaMaxX = coordenadaX;
             this.CoordenadaMaxY = coordenadaY;
         }
+
+        public int CoordenadaMaxX { get; private set; }
+        public int CoordenadaMaxY { get; private set; }
     }
 }

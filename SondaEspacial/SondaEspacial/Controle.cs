@@ -7,11 +7,7 @@ using System.Threading.Tasks;
 namespace SondaEspacial
 {
     class Controle
-    {
-        public Sonda Sonda1 { get; private set; }
-        public Sonda Sonda2 { get; private set; }
-        public Malha Malha { get; private set; }
-
+    {        
         public Controle(Sonda sonda1, Sonda sonda2, Malha malha)
         {
             if(sonda1.PosicaoX == sonda2.PosicaoX && sonda1.PosicaoY == sonda2.PosicaoY) { throw new ArgumentException("As sondas não podem ter posições iguais"); }
@@ -29,9 +25,12 @@ namespace SondaEspacial
             this.Malha = malha;
         }
 
+        public Sonda Sonda1 { get; private set; }
+        public Sonda Sonda2 { get; private set; }
+        public Malha Malha { get; private set; }
+
         public void ExecutaAmbasSondas(string commandSonda1, string commandSonda2)
         {
-
             foreach (char commandChar in commandSonda1)
             {
                 if (commandChar == 'L' || commandChar == 'R') { Sonda1.ViraSonda(commandChar); }

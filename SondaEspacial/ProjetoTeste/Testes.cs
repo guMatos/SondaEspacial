@@ -21,7 +21,7 @@ namespace ProjetoTeste
             var sonda = new Sonda(1, 1, 1, new Malha(5, 5));
             sonda.ViraSonda('R');
 
-            Assert.AreEqual((EnumEstrelaVentos.EstrelaVentos)2, sonda.FrenteDaSonda);
+            Assert.AreEqual((EstrelaVentos)2, sonda.FrenteDaSonda);
         }
 
         [TestMethod]
@@ -31,6 +31,6 @@ namespace ProjetoTeste
             sonda.MoveSonda();
 
             Assert.AreEqual(2, sonda.PosicaoY);
-        }
+        }        
     }
 }
