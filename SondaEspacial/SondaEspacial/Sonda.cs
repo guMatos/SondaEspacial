@@ -8,13 +8,15 @@ namespace SondaEspacial
 {
     public class Sonda
     {        
-        public Sonda(int frenteDaSonda, int posicaoX, int posicaoY)
+        public Sonda(int posicaoX, int posicaoY, int frenteDaSonda)
         {
             if (frenteDaSonda < 1) { throw new ArgumentException("1 - 4"); }
             else if (frenteDaSonda > 4) { throw new ArgumentException("1 - 4"); }
 
+            
+
             this.FrenteDaSonda = (EstrelaVentos)frenteDaSonda;
-            this.PosicaoX = posicaoX;
+            this.PosicaoX = posicaoX; // tirar isso daqui
             this.PosicaoY = posicaoY;
         }
 

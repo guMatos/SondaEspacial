@@ -7,17 +7,46 @@ using System.Threading.Tasks;
 namespace SondaEspacial
 {
     public class Malha
-    {      
-        public Malha(int coordenadaX, int coordenadaY)
-        {
-            if (coordenadaX < 1) { throw new ArgumentException("Coordenada X não pode ser menor que 1"); }
-            else if (coordenadaY < 1) { throw new ArgumentException("Coordenada Y não pode ser menor que 1"); }
+    {
+        private Coordenada[,] posicoes { get; set; }
 
-            this.CoordenadaMaxX = coordenadaX;
-            this.CoordenadaMaxY = coordenadaY;
+        public Malha(int coordenadaMaxX, int coordenadaMaxY)
+        {
+            if (coordenadaMaxX < 1) { throw new ArgumentException("Coordenada X não pode ser menor que 1"); }
+            else if (coordenadaMaxY < 1) { throw new ArgumentException("Coordenada Y não pode ser menor que 1"); }
+
+            this.CoordenadaMaxX = coordenadaMaxX;
+            this.CoordenadaMaxY = coordenadaMaxY;
+            posicoes = new Coordenada[coordenadaMaxX, coordenadaMaxY];
+
+            for (int i = 0; i <= CoordenadaMaxX; i++)
+            {
+                for (int j = 0; j <= CoordenadaMaxY; j++)
+                {
+                    posicoes[i, j] = new Coordenada(i, j);
+                }
+            }
         }
 
         public int CoordenadaMaxX { get; private set; }
         public int CoordenadaMaxY { get; private set; }
+
+        public bool PosicaoEstaVazia(int coordenadaX, int coordenadaY)
+        {
+            bool estaVazia = true;
+            for (int i = 0; i <= CoordenadaMaxX; i++)
+            {
+                for (int j = 0; j <= CoordenadaMaxY; j++)
+                {
+                    if (posicoes[i, j].EstaOcupado) { estaVazia = false; }
+                }
+            }
+            return estaVazia;
+        }
+
+        public void AdicionaSonda(Sonda sonda)
+        {
+
+        }
     }
 }

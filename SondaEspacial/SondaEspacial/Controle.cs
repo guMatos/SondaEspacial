@@ -6,13 +6,32 @@ using System.Threading.Tasks;
 
 namespace SondaEspacial
 {
-    class Controle
+    public class Controle
     {
         private readonly Malha malha;
 
         public Controle(Malha malha)
         {
             this.malha = malha ?? throw new ArgumentNullException(nameof(malha));
+        }
+
+        public void LeComandos(Sonda sonda, string comandos)
+        {
+            comandos = comandos.ToUpper();
+
+            foreach (var letra in comandos)
+            {
+                if (letra == 'M')
+                {
+                    MoveSonda(sonda);
+                } else if (letra == 'R' || letra == 'L')
+                {
+                    ViraSonda(sonda, letra);
+                } else
+                {
+                    throw new ArgumentException("Comando digitado inválido.", nameof(letra));
+                }
+            }
         }
 
         public void MoveSonda(Sonda sonda)
@@ -22,19 +41,19 @@ namespace SondaEspacial
                 switch (sonda.FrenteDaSonda)
                 {
                     case EstrelaVentos.North:
-                        if (sonda.PosicaoY < malha.CoordenadaMaxY){ sonda.PosicaoY++; }
+                        if (sonda.PosicaoY < malha.CoordenadaMaxY && malha.PosicaoEstaVazia(sonda.PosicaoX, sonda.PosicaoY + 1)) { sonda.PosicaoY++; }
                         else { MostrarMensagemFimMalha(); }
                         break;
                     case EstrelaVentos.East:
-                        if (sonda.PosicaoX < malha.CoordenadaMaxX) { sonda.PosicaoX++; }
+                        if (sonda.PosicaoX < malha.CoordenadaMaxX && malha.PosicaoEstaVazia(sonda.PosicaoX + 1, sonda.PosicaoY)) { sonda.PosicaoX++; }
                         else { MostrarMensagemFimMalha(); }
                         break;
                     case EstrelaVentos.South:
-                        if (sonda.PosicaoY >= 0) { sonda.PosicaoY--; }
+                        if (sonda.PosicaoY >= 0 && malha.PosicaoEstaVazia(sonda.PosicaoX, sonda.PosicaoY - 1)) { sonda.PosicaoY--; }
                         else { MostrarMensagemFimMalha(); }
                         break;
                     case EstrelaVentos.West:
-                        if (sonda.PosicaoX >= 0) { sonda.PosicaoX--; }
+                        if (sonda.PosicaoX >= 0 && malha.PosicaoEstaVazia(sonda.PosicaoX - 1, sonda.PosicaoY)) { sonda.PosicaoX--; }
                         else { MostrarMensagemFimMalha(); }
                         break;
                 }
@@ -77,10 +96,9 @@ namespace SondaEspacial
             return posicaoSonda <= posicaoMalha && posicaoSonda > 0;
         }
 
-        public override string ToString()
+        public string MostraPosicaoSonda(Sonda sonda)
         {
-            return "X: " + Sonda1.PosicaoX + " Y: " + Sonda1.PosicaoY + " Facing: " + Sonda1.FrenteDaSonda + "\n" +
-                "X: " + Sonda2.PosicaoX + " Y: " + Sonda2.PosicaoY + " Facing: " + Sonda2.FrenteDaSonda;
+            return "X: " + sonda.PosicaoX + " Y: " + sonda.PosicaoY + " Facing: " + sonda.FrenteDaSonda;
         }
     }
 }
