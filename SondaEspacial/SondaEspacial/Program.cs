@@ -10,14 +10,11 @@ namespace SondaEspacial
     {
         static void Main(string[] args)
         {
+            var random = new Random();
             var malha = new Malha(10, 10);
-            var sonda1 = new Sonda(1, 1, 2, malha);
-            var sonda2 = new Sonda(2, 3, 3, malha);
-            var controle = new Controle(sonda1, sonda2, malha);
-
-            controle.ExecutaAmbasSondas("MRM", "MLM");
-
-            Console.WriteLine(controle.ToString());
+            var sonda1 = new Sonda(1, 1, 2);
+            var sonda2 = new Sonda(2, 3, 3);
+            var controle = new Controle(malha);           
 
             Console.ReadKey();
         }

@@ -13,24 +13,6 @@ namespace ProjetoTeste
 
             Assert.AreEqual(3, malha.CoordenadaMaxX);
             Assert.AreEqual(3, malha.CoordenadaMaxY);
-        }
-
-        [TestMethod]
-        public void TesteViraSonda()
-        {
-            var sonda = new Sonda(1, 1, 1, new Malha(5, 5));
-            sonda.ViraSonda('R');
-
-            Assert.AreEqual((EstrelaVentos)2, sonda.FrenteDaSonda);
-        }
-
-        [TestMethod]
-        public void TesteMoveSonda()
-        {
-            var sonda = new Sonda(1, 1, 1, new Malha(5, 5));
-            sonda.MoveSonda();
-
-            Assert.AreEqual(2, sonda.PosicaoY);
-        }        
+        }       
     }
 }

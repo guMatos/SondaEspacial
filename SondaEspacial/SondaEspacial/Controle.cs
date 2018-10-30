@@ -7,44 +7,74 @@ using System.Threading.Tasks;
 namespace SondaEspacial
 {
     class Controle
-    {        
-        public Controle(Sonda sonda1, Sonda sonda2, Malha malha)
-        {
-            if(sonda1.PosicaoX == sonda2.PosicaoX && sonda1.PosicaoY == sonda2.PosicaoY) { throw new ArgumentException("As sondas não podem ter posições iguais"); }
-            else if(sonda1.PosicaoX < 1 || sonda1.PosicaoX > malha.CoordenadaMaxX || sonda1.PosicaoY < 1 || sonda1.PosicaoY > malha.CoordenadaMaxY)
-            {
-                throw new ArgumentException("Sonda 1 está fora da malha");
-            }
-            else if(sonda2.PosicaoX < 1 || sonda2.PosicaoX > malha.CoordenadaMaxX || sonda2.PosicaoY < 1 || sonda2.PosicaoY > malha.CoordenadaMaxY)
-            {
-                throw new ArgumentException("Sonda 2 está fora da malha");
-            }
+    {
+        private readonly Malha malha;
 
-            this.Sonda1 = sonda1;
-            this.Sonda2 = sonda2;
-            this.Malha = malha;
+        public Controle(Malha malha)
+        {
+            this.malha = malha ?? throw new ArgumentNullException(nameof(malha));
         }
 
-        public Sonda Sonda1 { get; private set; }
-        public Sonda Sonda2 { get; private set; }
-        public Malha Malha { get; private set; }
-
-        public void ExecutaAmbasSondas(string commandSonda1, string commandSonda2)
+        public void MoveSonda(Sonda sonda)
         {
-            foreach (char commandChar in commandSonda1)
+            if (SondaEstaDentroDaMalha(sonda))
             {
-                if (commandChar == 'L' || commandChar == 'R') { Sonda1.ViraSonda(commandChar); }
-                else if(commandChar == 'M') { Sonda1.MoveSonda(); }
+                switch (sonda.FrenteDaSonda)
+                {
+                    case EstrelaVentos.North:
+                        if (sonda.PosicaoY < malha.CoordenadaMaxY){ sonda.PosicaoY++; }
+                        else { MostrarMensagemFimMalha(); }
+                        break;
+                    case EstrelaVentos.East:
+                        if (sonda.PosicaoX < malha.CoordenadaMaxX) { sonda.PosicaoX++; }
+                        else { MostrarMensagemFimMalha(); }
+                        break;
+                    case EstrelaVentos.South:
+                        if (sonda.PosicaoY >= 0) { sonda.PosicaoY--; }
+                        else { MostrarMensagemFimMalha(); }
+                        break;
+                    case EstrelaVentos.West:
+                        if (sonda.PosicaoX >= 0) { sonda.PosicaoX--; }
+                        else { MostrarMensagemFimMalha(); }
+                        break;
+                }
             }
+            else { throw new ArgumentException("Sonda fora da malha"); }
+        }
 
-            if (Sonda1.PosicaoX == Sonda2.PosicaoX && Sonda1.PosicaoY == Sonda2.PosicaoY) { throw new Exception("Não podem ficar na mesma posição"); }
+        private static void MostrarMensagemFimMalha()
+        {
+            Console.WriteLine("Fim da Malha");
+        }
 
-            foreach (char commandChar in commandSonda2)
+        public void ViraSonda(Sonda sonda, char lado)
+        {
+            if (SondaEstaDentroDaMalha(sonda))
             {
-                if (commandChar == 'L' || commandChar == 'R') { Sonda2.ViraSonda(commandChar); }
-                else if (commandChar == 'M') { Sonda2.MoveSonda(); }
+                if (lado == 'R')
+                {
+                    if (sonda.FrenteDaSonda == EstrelaVentos.West) { sonda.FrenteDaSonda = EstrelaVentos.North; }
+                    else { sonda.FrenteDaSonda++; }
+                }
+                else if (lado == 'L')
+                {
+                    if (sonda.FrenteDaSonda == EstrelaVentos.North) { sonda.FrenteDaSonda = EstrelaVentos.West; }
+                    else { sonda.FrenteDaSonda--; }
+                }
+                else { throw new ArgumentException("Comando inválido"); }
             }
-            if (Sonda1.PosicaoX == Sonda2.PosicaoX && Sonda1.PosicaoY == Sonda2.PosicaoY) { throw new Exception("Não podem ficar na mesma posição"); }
+            else { throw new ArgumentException("Sonda fora da malha"); }
+        }
+
+        private bool SondaEstaDentroDaMalha(Sonda sonda)
+        {
+            return SondaEstaNaCoordenadaCorreta(sonda.PosicaoX, malha.CoordenadaMaxX) &&
+                SondaEstaNaCoordenadaCorreta(sonda.PosicaoY, malha.CoordenadaMaxY);
+        }
+
+        private bool SondaEstaNaCoordenadaCorreta(int posicaoSonda, int posicaoMalha)
+        {
+            return posicaoSonda <= posicaoMalha && posicaoSonda > 0;
         }
 
         public override string ToString()
