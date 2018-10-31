@@ -8,6 +8,8 @@ namespace SondaEspacial
 {
     public class Malha
     {
+        private Coordenada[,] posicoes { get; set; }
+
         public Malha(int coordenadaMaxX, int coordenadaMaxY)
         {
             if (coordenadaMaxX < 1) { throw new ArgumentException("Coordenada X não pode ser menor que 1"); }
@@ -15,18 +17,17 @@ namespace SondaEspacial
 
             this.CoordenadaMaxX = coordenadaMaxX;
             this.CoordenadaMaxY = coordenadaMaxY;
-            Posicoes = new Coordenada[coordenadaMaxX, coordenadaMaxY];
+            posicoes = new Coordenada[coordenadaMaxX, coordenadaMaxY];
 
             for (int i = 0; i <= CoordenadaMaxX; i++)
             {
                 for (int j = 0; j <= CoordenadaMaxY; j++)
                 {
-                    Posicoes[i, j] = new Coordenada(i, j);
+                    posicoes[i, j] = new Coordenada(i, j);
                 }
             }
         }
 
-        private Coordenada[,] Posicoes { get; set; }
         public int CoordenadaMaxX { get; private set; }
         public int CoordenadaMaxY { get; private set; }
 
@@ -37,7 +38,7 @@ namespace SondaEspacial
             {
                 for (int j = 0; j <= CoordenadaMaxY; j++)
                 {
-                    if (Posicoes[i, j].EstaOcupado) { estaVazia = false; }
+                    if (posicoes[i, j].EstaOcupado) { estaVazia = false; }
                 }
             }
             return estaVazia;
@@ -45,10 +46,7 @@ namespace SondaEspacial
 
         public void AdicionaSonda(Sonda sonda)
         {
-            if(PosicaoEstaVazia(sonda.PosicaoX, sonda.PosicaoY))
-            {
-                Posicoes[sonda.PosicaoX, sonda.PosicaoY].Sonda = sonda;
-            }
+
         }
     }
 }
